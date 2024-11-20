@@ -8,8 +8,8 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
-      builder: (BuildContext context, state) {
+    return BlocBuilder<MainCubit, MainScreenState>(
+      builder: (context, state) {
         if (state is UnknownBatteryLevel) {
           return Scaffold(
             body: Center(
@@ -19,7 +19,9 @@ class MainScreen extends StatelessWidget {
                   const Text('Battery Level: Unknown'),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.read<MainCubit>().getBatteryLevel();
+                    },
                     child: const Text('Get Battery Level'),
                   ),
                 ],
@@ -48,7 +50,7 @@ class MainScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text('Battery Level: ${(state as LoadedBatteryLevel).batteryLevel}'),
+                  Text((state as LoadedBatteryLevel).batteryLevel),
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
